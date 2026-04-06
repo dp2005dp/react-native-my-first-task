@@ -1,24 +1,45 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
-
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Tabs } from 'expo-router';
+import { useState } from 'react';
+import AppContext from '../context/appContext';
+const Layout = () => {  
+  
+   const [isTheme, setTheme] = useState<boolean>(false);
+   
+  const toggleTheme = () => {
+     setTheme((prevTheme) => !prevTheme);
+  }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    <AppContext.Provider value={{isDarkMode : isTheme , toggleTheme}}>
+    
+    <Tabs screenOptions={{tabBarActiveTintColor : 'rgb(10, 102, 194)' ,  headerShown: false , tabBarStyle: {
+    height: 100 ,  backgroundColor:  isTheme ? '#000' : '#fff'
+  }}} 
+     
+     >
+      
+      <Tabs.Screen name="home" options = {{
+          tabBarIcon : ({color , size}) => (
+            <MaterialCommunityIcons name="home-circle" size={size} color={color} />
+          )
+      }} />
+       <Tabs.Screen name="explore" options = {{
+          tabBarIcon : ({color , size}) => (
+             <MaterialIcons name="explore" size={size} color={color} />
+          )
+      }} />
+        <Tabs.Screen name="profile" options = {{
+          tabBarIcon : ({color , size}) => (
+             <FontAwesome name="user" size={size} color={color} />
+          )
+      }} />
+
+    </Tabs>
+    </AppContext.Provider>
+)
 }
+
+export default Layout;
