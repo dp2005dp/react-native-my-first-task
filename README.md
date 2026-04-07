@@ -1,5 +1,6 @@
-# Welcome to your Expo app 👋
+Rect Native Project 
 
+<<<<<<< HEAD
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
 ## Get started
@@ -50,4 +51,6 @@ Join our community of developers creating universal apps.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
 
 # react-native-my-first-task
+=======
+>>>>>>> de1ad6173f469ca6630ba5b1ec4ae3fac75c052b
 A React Native (Expo) app with bottom tab navigation (Home, Explore, Profile), product listing using TypeScript, and basic UI with category filtering.
