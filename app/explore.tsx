@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, Image, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import AppContext from '../context/appContext';
 import { categories, CategoryOption } from '../data/categories';
@@ -7,49 +7,21 @@ import { products, ProductType } from '../data/products';
 
 
 
-// type CategoryOption = {
-//     id: string;
-//     name: string;
-//     isSelected: boolean;
-// }
-
-
-
-
-
-// const categoryOptions = [
-//   {
-//     name: 'clothes',
-//     id: '1',
-//     isSelected: false,
-//   },
-//   {
-//     name: 'Electronics',
-//     id: '2',
-//     isSelected: false,
-//   },
-//   {
-//     name: 'Appliances',
-//     id: '3',
-//     isSelected: false,
-//   },
-//   {
-//     name: 'Grocery',
-//     id: '4',
-//     isSelected: false,
-//   },
-// ]
-
-
-
 const Explore = () => {
-    const { isDarkMode } = useContext(AppContext);
-    const styles = getStyles(isDarkMode);
+     
+   const { isDarkMode } = useContext(AppContext);
+   const styles = getStyles(isDarkMode);
    const [productList, setProductList] = useState<ProductType[]>([]);
    const [searchInput, setSearchInput] = useState<string>('');
    const [showFilter , setShowFilter] = useState<boolean>(false);
    const [categoryList, setCategoryList] = useState<CategoryOption[]>(categories);
    
+   const inputRef = useRef<TextInput>(null);
+
+     useLayoutEffect(() => {
+     inputRef.current?.focus();
+     }, []);
+
    
     useEffect(() => {
       const fetchProductData = () => {
@@ -59,12 +31,15 @@ const Explore = () => {
 
       fetchProductData();
     } , [])
+    
+
 
    const userInput = (value:string) => {
         setSearchInput(value);
    }
     
   const filteredProducts = useMemo(() => {
+      console.log(productList)
         return products.filter((product) =>
             product.image_url.split('ecommerce/')[1].split('-')[0].includes(searchInput.toLowerCase().trim())
         
@@ -131,13 +106,12 @@ const Explore = () => {
    }
    
    return (
-
     <View style={styles.exploreMianContainer}>
         <Image source={{uri : 'https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png'}} style={styles.logo}/>
        
         <  View style={styles.exploreContainer}>
          <View style={styles.searchcontainer}>
-              <TextInput  placeholder='Search' style={styles.input} onChangeText={userInput} value={searchInput}/>
+              <TextInput  placeholder='Search' style={styles.input} onChangeText={userInput} value={searchInput}  ref={inputRef} />
               <Ionicons name="search" size={22} color="grey"  onPress={onSerach}/>
          </View>
           
@@ -152,6 +126,8 @@ const Explore = () => {
                      <Text style={styles.text}>No products found 🔍</Text>
                      <Text style={styles.text}>Try different search keyword</Text>
                  </View>
+     
+                 
 
            ) : 
            (  
@@ -169,6 +145,7 @@ const Explore = () => {
                <Text style={styles.text}>All Products</Text>
                  <FlatList<ProductType> 
             data={productList}
+            
             numColumns={2} 
             renderItem={({item}) => (
                <View style={styles.flexContainer}>
@@ -239,6 +216,7 @@ const getStyles = (isDarkMode: boolean) =>
       exploreMianContainer :{
       height : '100%',
       flexDirection: 'column',
+      alignItems: 'center',
       padding : 20,
       backgroundColor : isDarkMode ? '#181818' : 'white',
     },
@@ -280,6 +258,7 @@ const getStyles = (isDarkMode: boolean) =>
     marginTop: 10,
     marginBottom: 10,
     color:  isDarkMode ?  '#cccccc' :   '#1e293b',
+    alignSelf : 'flex-start',
   },
   productImage:{
       height: 150,
@@ -314,6 +293,7 @@ const getStyles = (isDarkMode: boolean) =>
      width: 130,
      marginTop: 40,
      marginBottom: 30,
+     alignSelf : 'flex-start',
    },
    noproductsContainer:{
     height: '80%',
