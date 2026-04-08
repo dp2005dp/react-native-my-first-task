@@ -1,10 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, Image, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import AppContext from '../context/appContext';
-import { categories, CategoryOption } from '../data/categories';
-import { products, ProductType } from '../data/products';
-
+import AppContext from '../../context/appContext';
+import { categories, CategoryOption } from '../../data/categories';
+import { products, ProductType } from '../../data/products';
 
 
 const Explore = () => {
@@ -17,7 +17,7 @@ const Explore = () => {
    const [categoryList, setCategoryList] = useState<CategoryOption[]>(categories);
    
    const inputRef = useRef<TextInput>(null);
-
+   const router = useRouter();
      useLayoutEffect(() => {
      inputRef.current?.focus();
      }, []);
@@ -39,7 +39,7 @@ const Explore = () => {
    }
     
   const filteredProducts = useMemo(() => {
-      console.log(productList)
+      
         return products.filter((product) =>
             product.image_url.split('ecommerce/')[1].split('-')[0].includes(searchInput.toLowerCase().trim())
         
@@ -148,6 +148,22 @@ const Explore = () => {
             
             numColumns={2} 
             renderItem={({item}) => (
+            <TouchableOpacity 
+              onPress={
+                  () => {
+                      router.push({
+                              pathname : '/productItemDetails',
+                              params : {
+                                     id : item.id,
+                              }
+                      })
+                  }
+              }
+            
+            >
+
+
+           
                <View style={styles.flexContainer}>
                         <View style={styles.flexColumnContainer}>
                             <Image source={{uri : item.image_url}} style={styles.productImage}/>
@@ -162,6 +178,8 @@ const Explore = () => {
                                 </View>
                         </View>
                 </View>
+
+                 </TouchableOpacity>
             )}
             
             keyExtractor={(item) => item.id.toString()}

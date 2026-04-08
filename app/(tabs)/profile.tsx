@@ -2,7 +2,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import { useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import AppContext from '../context/appContext';
+import AppContext from '../../context/appContext';
 
 
 const Profile = () => {

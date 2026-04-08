@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import AppContext from '../context/appContext';
+import AppContext from '../../context/appContext';
 const Home = () => {
  const { isDarkMode } = useContext(AppContext);
 

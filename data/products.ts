@@ -66,7 +66,7 @@
        },
        {
             "brand": "COOKWELL",
-            "id": "20",
+            "id": "50",
             "image_url": "https://assets.ccbp.in/frontend/react-js/ecommerce/appliances-mixer-grinder-white.png",
             "price": "1899",
             "rating": "4.1",
@@ -98,7 +98,7 @@
        } ,
        {
             "brand": "STREET 9",
-            "id": "24",
+            "id": "51",
             "image_url": "https://assets.ccbp.in/frontend/react-js/ecommerce/cloths-blue-fork.png",
             "price": "1799",
             "rating": "4.5",
